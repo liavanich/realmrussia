@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>REALM RUSSIA | Премиум RolePlay | CRMP/SAMP Сервер</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: #0a0000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Background effects */
+        .noise-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-radial-gradient(circle at 20% 30%, rgba(255, 0, 0, 0.02) 0px, transparent 2px),
+                        repeating-linear-gradient(45deg, rgba(255, 50, 50, 0.02) 0px, rgba(255, 50, 50, 0.02) 1px, transparent 1px, transparent 20px);
+            pointer-events: none;
+            z-index: -2;
+        }
+        
+        .gradient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 50% 30%, #1a0303, #000000);
+            z-index: -3;
+        }
+
+        .neon-text {
+            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000;
+        }
+        
+        section {
+            padding: 100px 8%;
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1, h2, h3 {
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        
+        h2 {
+            font-size: 3.2rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #fff, #ff3a3a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .glow-btn {
+            background: linear-gradient(95deg, #ff1a1a, #8b0000);
+            border: none;
+            padding: 16px 48px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: white;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .glow-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px #ff0000, 0 0 10px #ff4d4d;
+            letter-spacing: 3px;
+        }
+        
+        .glass-card {
+            background: rgba(30, 10, 10, 0.35);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 80, 80, 0.3);
+            border-radius: 28px;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        
+        .glass-card:hover {
+            border-color: #ff4444;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+            transform: translateY(-8px);
+        }
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            z-index: 3;
+            max-width: 900px;
+            padding: 20px;
+        }
+        
+        .hero h1 {
+            font-size: 5.5rem;
+            background: linear-gradient(135deg, #ff4d4d, #fff, #ff0000);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            letter-spacing: 6px;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: #ddd;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        /* Mission / Goals grid */
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            margin-top: 50px;
+        }
+        
+        .mission-card {
+            padding: 40px 25px;
+            text-align: center;
+            background: rgba(30, 10, 10, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 80, 80, 0.3);
+            border-radius: 28px;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        
+        .mission-card:hover {
+            border-color: #ff4444;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+            transform: translateY(-8px);
+        }
+        
+        .mission-card i {
+            font-size: 3rem;
+            color: #ff3a3a;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px red;
+        }
+        
+        .mission-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .mission-card p {
+            color: #ccc;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+        
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+        
+        .gallery-item {
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.4s;
+            height: 230px;
+            background: #2a0a0a;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.6s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* Stats */
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .stat-block {
+            text-align: center;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            padding: 25px 45px;
+            border-radius: 60px;
+            border: 1px solid #ff4d4d;
+        }
+        
+        .stat-number {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: #ff2a2a;
+            text-shadow: 0 0 15px red;
+        }
+        
+        /* Steps */
+        .steps-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 60px 0;
+        }
+        
+        .step-card {
+            flex: 1;
+            min-width: 200px;
+            padding: 30px 20px;
+            text-align: center;
+            background: rgba(20,0,0,0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            border: 1px solid rgba(255,70,70,0.5);
+        }
+        
+        .step-number {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(145deg, #ff2a2a, #8b0000);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.7rem;
+            font-weight: 900;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 15px red;
+        }
+        
+        /* QUOTE DIVIDER */
+        .quote-divider {
+            text-align: center;
+            margin: 40px 8%;
+            padding: 50px 30px;
+            background: linear-gradient(135deg, rgba(255, 40, 40, 0.15), rgba(20, 0, 0, 0.7));
+            border-radius: 35px;
+            border-left: 4px solid #ff3333;
+            border-right: 4px solid #ff3333;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 5;
+            clear: both;
+        }
+        
+        .quote-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ffdddd;
+            text-shadow: 0 0 10px rgba(255,0,0,0.5);
+            line-height: 1.4;
+        }
+        
+        .quote-author {
+            margin-top: 20px;
+            color: #ff9999;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .quote-stats {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: #ff7777;
+        }
+        
+        .quote-stats span i {
+            margin-right: 8px;
+            color: #ff4444;
+        }
+        
+        /* Footer */
+        footer {
+            background: #030000;
+            padding: 70px 8% 40px;
+            border-top: 1px solid rgba(255,60,60,0.3);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            margin: 30px 0;
+        }
+        
+        .social-icon {
+            width: 55px;
+            height: 55px;
+            background: rgba(255,40,40,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.9rem;
+            color: white;
+            transition: 0.3s;
+            border: 1px solid #ff4a4a;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .social-icon:hover {
+            background: #ff2a2a;
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px red;
+        }
+        
+        .download-group {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        /* Modal overlay styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-window {
+            background: linear-gradient(135deg, #1a0505, #0a0000);
+            border: 2px solid #ff3333;
+            border-radius: 32px;
+            padding: 40px 50px;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(255, 0, 0, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-window {
+            transform: scale(1);
+        }
+        
+        .modal-window i {
+            font-size: 4rem;
+            color: #ff4444;
+            margin-bottom: 20px;
+        }
+        
+        .modal-window h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #ff8888;
+        }
+        
+        .modal-window p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #ddd;
+            line-height: 1.5;
+        }
+        
+        .modal-ok-btn {
+            background: linear-gradient(95deg, #ff1a1a, #8b0000);
+            border: none;
+            padding: 12px 35px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .modal-ok-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #ff0000;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            section { padding: 80px 6%; }
+            .quote-divider { margin: 30px 5%; padding: 35px 20px; }
+            .quote-text { font-size: 1.3rem; }
+            h2 { font-size: 2.5rem; }
+        }
+        
+        @media (max-width: 768px) {
+            section { padding: 60px 5%; }
+            .hero h1 { font-size: 2.8rem; letter-spacing: 2px; }
+            h2 { font-size: 1.8rem; }
+            .stat-block { padding: 15px 25px; }
+            .quote-divider { margin: 20px 4%; padding: 30px 20px; }
+            .quote-text { font-size: 1.1rem; }
+            .quote-author { font-size: 0.85rem; }
+            .mission-card h3 { font-size: 1.3rem; }
+            .modal-window { padding: 30px 25px; margin: 20px; }
+        }
+        
+        @media (max-width: 480px) {
+            .quote-divider { margin: 15px 3%; padding: 25px 15px; }
+            .quote-text { font-size: 1rem; }
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            transform: scale(0);
+            animation: rippleAnim 0.5s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes rippleAnim {
+            from { transform: scale(0); opacity: 0.6; }
+            to { transform: scale(4); opacity: 0; }
+        }
+        
+        ::selection {
+            background: #ff2a2a;
+            color: white;
+        }
+        
+        .step-card:hover {
+            background: rgba(80,20,20,0.6);
+            border-color: #ff5e5e;
+            transform: translateY(-6px);
+        }
+        
+        .hero h1 {
+            animation: fadeGlow 2s infinite alternate;
+        }
+        
+        @keyframes fadeGlow {
+            0% { text-shadow: 0 0 2px #ff0000; }
+            100% { text-shadow: 0 0 30px #ff4d4d, 0 0 10px darkred; }
+        }
+        
+        .gallery-item img {
+            filter: brightness(0.9) contrast(1.1);
+            transition: 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            filter: brightness(1.1) contrast(1.2);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+<div class="gradient-overlay"></div>
+<div class="noise-bg"></div>
+
+<!-- Modal overlay for Android message -->
+<div id="androidModal" class="modal-overlay">
+    <div class="modal-window">
+        <i class="fab fa-android"></i>
+        <h3>В разработке</h3>
+        <p>Не удалось скачать, игра в разработке на Android</p>
+        <button class="modal-ok-btn" id="closeModalBtn">OK</button>
+    </div>
+</div>
+
+<!-- Hero section -->
+<section class="hero">
+    <canvas id="heroCanvas" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index:-1; opacity:0.5;"></canvas>
+    <div class="hero-content" data-aos="fade-up" data-aos-duration="1500">
+        <h1>REALM RUSSIA</h1>
+        <p class="neon-text" style="font-size:1.5rem; font-weight: 600;">Официальный премиум RolePlay сервер</p>
+        <p style="margin: 30px 0; font-size: 1.1rem; max-width:700px; margin-left:auto; margin-right:auto;">Вдохновлён BLACK RUSSIA. Криминальная империя, уникальные фракции, живая экономика и атмосфера уличных баталий.</p>
+        <button class="glow-btn" id="playNowBtn">▶ ИГРАТЬ СЕЙЧАС</button>
+    </div>
+</section>
+
+<!-- О проекте -->
+<section data-aos="fade-up">
+    <h2>О ПРОЕКТЕ</h2>
+    <div class="glass-card" style="padding: 45px; margin-top: 30px;">
+        <p style="font-size:1.2rem; line-height:1.6; color:#f0f0f0;">REALM RUSSIA — это переосмысление культового BLACK RUSSIA на платформах CRMP и SAMP. Мы создали идеальный баланс между жёстким криминальным РП и премиум комфортом. Каждый игрок найдет свой путь: от уличного бандита до медиамагната. Уникальная система наркотрафика, кастомный транспорт, оружейная кастомизация и админ. состав, который ценит атмосферу. Погрузись в мир, где твои решения меняют город.</p>
+    </div>
+</section>
+
+<!-- РАЗДЕЛИТЕЛЬ С ТЕКСТОМ (цитата) -->
+<div class="quote-divider" data-aos="fade-up" data-aos-offset="200">
+    <div class="quote-text">
+        <i class="fas fa-quote-left" style="margin-right: 10px; opacity: 0.7;"></i>
+        Атмосфера, за которую мы платим — здесь каждый шаг оставляет след
+        <i class="fas fa-quote-right" style="margin-left: 10px; opacity: 0.7;"></i>
+    </div>
+    <div class="quote-author">— Легендарный REALM RUSSIA. Много уникальных игроков за сезон</div>
+    <div class="quote-stats">
+        <span><i class="fas fa-fire"></i> Активируй премиум-статус</span>
+        <span><i class="fas fa-trophy"></i> Топ-1 RP сервер 2026</span>
+        <span><i class="fas fa-users"></i> 100+ онлайн в прайм-тайм</span>
+    </div>
+</div>
+
+<!-- Галерея -->
+<section>
+    <h2 data-aos="fade-right">ГАЛЕРЕЯ МОМЕНТОВ</h2>
+    <div class="gallery-grid">
+        <div class="gallery-item" data-aos="flip-left"><img src="https://avatars.mds.yandex.net/i?id=21c58018eb58750ae206cd72c6ab14a9_l-5433372-images-thumbs&ref=rim&n=13&w=1432&h=774" alt="screenshot 1"></div>
+        <div class="gallery-item" data-aos="flip-left" data-aos-delay="100"><img src="https://files.libertycity.ru/download/vehicles_gtasastyle/thumbs/2021-05/bmw-m5-f90-competition-03918_1686007311_339739.webp" alt="screenshot 2"></div>
+        <div class="gallery-item" data-aos="flip-left" data-aos-delay="200"><img src="https://avatars.mds.yandex.net/i?id=3db65f146b35030ff565332cec21fd67_l-4117467-images-thumbs&ref=rim&n=13&w=1366&h=768" alt="screenshot 3"></div>
+        <div class="gallery-item" data-aos="flip-left" data-aos-delay="300"><img src="https://avatars.mds.yandex.net/i?id=04d787ddf92110dc6fa048a43e187e703a8568ce-5590559-images-thumbs&n=13" alt="screenshot 4"></div>
+    </div>
+</section>
+
+<!-- Статистика -->
+<section>
+    <h2 data-aos="fade-up">СТАТИСТИКА СЕРВЕРА</h2>
+    <div class="stats-container">
+        <div class="stat-block" data-aos="zoom-in">
+            <div class="stat-number" id="serverOnline">0</div>
+            <p>Игроков онлайн</p>
+        </div>
+        <div class="stat-block" data-aos="zoom-in" data-aos-delay="100">
+            <div class="stat-number">109</div>
+            <p>Всего игроков за week</p>
+        </div>
+        <div class="stat-block" data-aos="zoom-in" data-aos-delay="200">
+            <div class="stat-number">4.9</div>
+            <p>Рейтинг / Отзывы</p>
+        </div>
+        <div class="stat-block" data-aos="zoom-in" data-aos-delay="300">
+            <div class="stat-number" id="peakOnline">30</div>
+            <p>Пик онлайн (сезон)</p>
+        </div>
+    </div>
+</section>
+
+<!-- Как начать играть -->
+<section id="how-to-start">
+    <h2 data-aos="fade-up">КАК НАЧАТЬ ИГРАТЬ?</h2>
+    <div class="steps-row">
+        <div class="step-card" data-aos="fade-up">
+            <div class="step-number">1</div>
+            <h3>СКАЧАЙ ЛАУНЧЕР</h3>
+            <p>Скачай установщик REALM RUSSIA для PC по ссылке ниже</p>
+        </div>
+        <div class="step-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="step-number">2</div>
+            <h3>УСТАНОВКА</h3>
+            <p>Запусти лаунчер и выбери папку с CRMP/SAMP клиентом</p>
+        </div>
+        <div class="step-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="step-number">3</div>
+            <h3>РЕГИСТРАЦИЯ</h3>
+            <p>Создай персонажа и погрузись в криминальный мир</p>
+        </div>
+    </div>
+    <div class="download-group">
+        <button class="glow-btn" id="downloadLauncher"><i class="fas fa-download"></i> СКАЧАТЬ LAUNCHER (PC)</button>
+        <button class="glow-btn" id="androidBtn"><i class="fab fa-android"></i> СКАЧАТЬ LAUNCHER (ANDROID)</button>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="https://placehold.co/100x100/8b0000/white?text=REALM" style="width: 70px; border-radius: 50%; box-shadow: 0 0 20px red;" alt="logo">
+        <h3 style="margin-top: 15px;">REALM RUSSIA - BLACK INSPIRED</h3>
+    </div>
+    <div class="social-links">
+        <a href="#" class="social-icon" id="telegramLink" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+        <a href="#" class="social-icon" id="vkLink" target="_blank"><i class="fab fa-vk"></i></a>
+        <a href="#" class="social-icon" id="youtubeLink" target="_blank"><i class="fab fa-youtube"></i></a>
+    </div>
+    <p style="text-align: center; opacity: 0.7;">© 2025 REALM RUSSIA — Премиум RolePlay проект. Все права защищены.<br>Независимый сервер, вдохновлённый лучшими традициями BLACK RUSSIA.</p>
+</footer>
+
+<script>
+    AOS.init({ duration: 1000, once: false, mirror: true });
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // GSAP animations for mission cards
+    gsap.utils.toArray('.mission-card').forEach((card, i) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+            },
+            opacity: 0,
+            y: 60,
+            duration: 0.8,
+            delay: i * 0.1,
+            ease: "back.out(0.8)"
+        });
+    });
+    
+    // Hero canvas particles
+    const canvas = document.getElementById('heroCanvas');
+    if(canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        for(let i = 0; i < 90; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2.5 + 1,
+                alpha: Math.random() * 0.6 + 0.2,
+                speedX: (Math.random() - 0.5) * 0.5,
+                speedY: (Math.random() - 0.5) * 0.3
+            });
+        }
+        function animateParticles() {
+            if(!ctx) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for(let p of particles) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(255, 50, 50, ${p.alpha * 0.7})`;
+                ctx.fill();
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if(p.x < 0) p.x = canvas.width;
+                if(p.x > canvas.width) p.x = 0;
+                if(p.y < 0) p.y = canvas.height;
+                if(p.y > canvas.height) p.y = 0;
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    }
+    
+    // Счетчик игроков онлайн от 0 до 15 (каждые 10 секунд)
+    let currentOnline = 0;
+    const onlineEl = document.getElementById('serverOnline');
+    const targetMaxOnline = 15;
+    
+    function updateOnlineCounter() {
+        if (currentOnline >= targetMaxOnline) {
+            currentOnline = 0;
+        } else {
+            currentOnline++;
+        }
+        if (onlineEl) onlineEl.innerText = currentOnline;
+    }
+    
+    // Запускаем счетчик: обновление каждые 10 секунд
+    updateOnlineCounter(); // сразу показываем 1
+    setInterval(updateOnlineCounter, 10000);
+    
+    // Social links - ОБНОВЛЕННЫЕ ССЫЛКИ
+    const tgBtn = document.getElementById('telegramLink');
+    if(tgBtn) tgBtn.href = 'https://t.me/realmrussia';
+    
+    const vk = document.getElementById('vkLink');
+    if(vk) vk.href = 'https://vk.ru/im/channels/-238527885';
+    
+    const youtube = document.getElementById('youtubeLink');
+    if(youtube) youtube.href = 'https://www.youtube.com/@REALMRUSSIA';
+    
+    const playBtn = document.getElementById('playNowBtn');
+    const downloadBtnMain = document.getElementById('downloadLauncher');
+    const androidBtn = document.getElementById('androidBtn');
+    
+    // Функция для скачивания лаунчера PC
+    function redirectToLauncher() {
+        window.open('https://drive.google.com/file/d/1_7rjmqKoQe7tNKkQvsrlrJkLUHJgIjfw/view?usp=drive_link', '_blank');
+    }
+    
+    // Функция показа модального окна для Android
+    function showAndroidModal() {
+        const modal = document.getElementById('androidModal');
+        if (modal) {
+            modal.classList.add('active');
+        }
+    }
+    
+    function closeModal() {
+        const modal = document.getElementById('androidModal');
+        if (modal) {
+            modal.classList.remove('active');
+        }
+    }
+    
+    if(playBtn) {
+        playBtn.addEventListener('click', () => {
+            const howToSection = document.getElementById('how-to-start');
+            if(howToSection) {
+                howToSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+    
+    if(downloadBtnMain) downloadBtnMain.addEventListener('click', redirectToLauncher);
+    
+    // Android кнопка показывает модальное окно
+    if(androidBtn) androidBtn.addEventListener('click', showAndroidModal);
+    
+    // Закрытие модального окна по кнопке OK
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+    
+    // Закрытие модального окна по клику на фон
+    const modalOverlay = document.getElementById('androidModal');
+    if(modalOverlay) {
+        modalOverlay.addEventListener('click', (e) => {
+            if(e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+    }
+    
+    // Mouse parallax effect
+    document.addEventListener('mousemove', (e) => {
+        const heroTitle = document.querySelector('.hero h1');
+        if(heroTitle && window.innerWidth > 800) {
+            let xAxis = (window.innerWidth / 2 - e.pageX) / 45;
+            let yAxis = (window.innerHeight / 2 - e.pageY) / 45;
+            heroTitle.style.transform = `translate(${xAxis * 0.5}px, ${yAxis * 0.3}px)`;
+        }
+    });
+    
+    // Ripple effect for buttons
+    const allBtns = document.querySelectorAll('.glow-btn');
+    allBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            let ripple = document.createElement('span');
+            ripple.classList.add('ripple-effect');
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            ripple.style.left = e.offsetX - 25 + 'px';
+            ripple.style.top = e.offsetY - 25 + 'px';
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 500);
+        });
+    });
+</script>
+</body>
+</html>
