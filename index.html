@@ -725,9 +725,11 @@
     const downloadBtnMain = document.getElementById('downloadLauncher');
     const androidBtn = document.getElementById('androidBtn');
     
-    // Функция для скачивания лаунчера PC
+    // НОВАЯ ССЫЛКА ДЛЯ СКАЧИВАНИЯ ЛАУНЧЕРА
+    const LAUNCHER_URL = 'https://drive.google.com/file/d/1gx1NOr7zfkvOVIYk_0sBfGw6rA5szYeK/view?usp=drive_link';
+    
     function redirectToLauncher() {
-        window.open('https://drive.google.com/file/d/1_7rjmqKoQe7tNKkQvsrlrJkLUHJgIjfw/view?usp=drive_link', '_blank');
+        window.open(LAUNCHER_URL, '_blank');
     }
     
     // Функция показа модального окна для Android
